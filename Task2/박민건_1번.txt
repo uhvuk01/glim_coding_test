@@ -1,0 +1,18 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(int n, int k) {
+    if ((n < 0 || n >= 1000)||(k < n/10 || k > 1000))
+    {
+        return -1; //제한사항 적용. 추후 main에서 반환값이 -1일 때의 제한사항에따른 경고 출력 
+    }
+    else
+    {
+        int sheep = 12000;
+        int drink = 2000;
+        int result = (sheep * n) + (drink * (k - (n / 10)));
+        return result;
+    }
+}
