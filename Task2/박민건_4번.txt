@@ -6,16 +6,12 @@ using namespace std;
 int solution(int a, int b) {
     int ab_int = stoi(to_string(a) + to_string(b));
     int ba_int = stoi(to_string(b) + to_string(a));
-    if (ab_int > ba_int)
+    if (ab_int > ba_int || ab_int == ba_int)
     {
         return ab_int;
-    }
-    else if (ba_int > ab_int)
-    {
-        return ba_int;
     }
     else
     {
-        return ab_int;
+        return ba_int;
     }
 }
