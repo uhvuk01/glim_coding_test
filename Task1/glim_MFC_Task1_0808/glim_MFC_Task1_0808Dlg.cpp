@@ -320,7 +320,6 @@ void CglimMFCTask10808Dlg::SetTextAxis(int x, int y)
 
 void CglimMFCTask10808Dlg::UpdateDisplay()
 {
-	std::cout << "UpdateDisplay\n";
 	CClientDC dc(this); //이곳에 작업공간이 있다는 것을 명시적으로 알리는 역할
 	m_InitImage.Draw(dc, 0, 50); //dc에해당하는 그림을 창에 그리는데, 그림이 시작되는 x,y좌푯값은 (0,0)이다
 }
@@ -384,19 +383,17 @@ void CglimMFCTask10808Dlg::SaveImage()
 		+ std::to_string(m_nEndY) + ").bmp";
 	CString filename;
 	filename = folderlocation.c_str();
-	//std::cout << "image_save " <<std::endl;
 	m_InitImage.Save(filename);
 }
 
 void CglimMFCTask10808Dlg::OnBnClickedBtnOpen()
 {
 
-	//memset(fm, 255, m_InitImage.GetHeight()/2 * m_InitImage.GetWidth()); //직전 배경은 검은 화면으로
-	///////////////////////////////////////////////////////////////////////////////////////////////
 	CString str = _T("All files(*.*)|*.*|"); // 모든 파일 표시
 	CFileDialog dlg(TRUE, _T("*.dat"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, str, this);
 	CString strPathName;
 	CClientDC dc(this);
+
 	if (dlg.DoModal() == IDOK)
 	{
 		if (m_InitImage == NULL)
@@ -405,7 +402,6 @@ void CglimMFCTask10808Dlg::OnBnClickedBtnOpen()
 		}
 		m_InitImage.Destroy();
 		strPathName = dlg.GetPathName();
-		std::wcout << (const WCHAR*)strPathName << std::endl;
 		m_InitImage.Load(strPathName);
 		m_InitImage.Draw(dc,0,50, m_InitImage.GetWidth(), m_InitImage.GetHeight());
 		m_nPitch = m_InitImage.GetPitch(); //한 행의 메모리에서 차지하는 바이트 수 반환, 즉, 이미지의 너비가 npitch 만큼의 메모리 공간을 차지
@@ -437,7 +433,12 @@ void CglimMFCTask10808Dlg::OnBnClickedBtnOpen()
 		m_bIsMakedcircle = false;
 		/////////////////////////////////////////////////////////////////////////////////////////////
 		DrawXmark();
+
 		UpdateDisplay();
+		CString Image_XYtxt;
+		Image_XYtxt.Format(_T("(%d, %d)"), m_nOpenImageX, m_nOpenImageY);
+		std::cout << m_nOpenImageX + 55 << "," << m_nOpenImageY << std::endl;
+		dc.TextOutW(m_nOpenImageX + 55, m_nOpenImageY, Image_XYtxt);
 	}
 	else{/*파일 탐색기 취소버튼*/ }
 
@@ -465,4 +466,8 @@ void CglimMFCTask10808Dlg::DrawXmark()
 			}
 		}
 	}
+	CClientDC dc(this);
+
+
+
 }
